@@ -1,11 +1,9 @@
 let userConfig = undefined
 try {
-  // try to import ESM first
   userConfig = await import('./v0-user-next.config.mjs')
 } catch (e) {
   try {
-    // fallback to CJS import
-    userConfig = await import("./v0-user-next.config");
+    userConfig = await import("./v0-user-next.config")
   } catch (innerError) {
     // ignore error
   }
@@ -13,7 +11,7 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // <-- This is the important new line for static export
+  output: 'export', // ✅ <-- This tells Next.js to allow static export
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -31,9 +29,7 @@ const nextConfig = {
 }
 
 if (userConfig) {
-  // ESM imports will have a "default" property
   const config = userConfig.default || userConfig
-
   for (const key in config) {
     if (
       typeof nextConfig[key] === 'object' &&
@@ -50,3 +46,4 @@ if (userConfig) {
 }
 
 export default nextConfig
+
