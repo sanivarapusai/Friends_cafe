@@ -1,12 +1,15 @@
 {
+  "homepage": "https://sanivarapusai.github.io/Friends_cafe",
   "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -65,6 +68,7 @@
     "@types/react-dom": "^19",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "gh-pages": "^6.0.0"
   }
 }
