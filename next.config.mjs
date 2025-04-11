@@ -1,9 +1,11 @@
-let userConfig = undefined
+let userConfig = undefined;
 try {
-  userConfig = await import('./v0-user-next.config.mjs')
+  // try to import ESM first
+  userConfig = await import('./v0-user-next.config.mjs');
 } catch (e) {
   try {
-    userConfig = await import("./v0-user-next.config")
+    // fallback to CJS import
+    userConfig = await import('./v0-user-next.config');
   } catch (innerError) {
     // ignore error
   }
@@ -11,7 +13,7 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // ✅ <-- This tells Next.js to allow static export
+  output: 'export', // ✅ THIS LINE IS ESSENTIAL FOR STATIC EXPORT
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -26,24 +28,23 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-}
+};
 
+// Merge user config if available
 if (userConfig) {
-  const config = userConfig.default || userConfig
+  const config = userConfig.default || userConfig;
   for (const key in config) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
+    if (typeof nextConfig[key] === 'object' && !Array.isArray(nextConfig[key])) {
       nextConfig[key] = {
         ...nextConfig[key],
         ...config[key],
-      }
+      };
     } else {
-      nextConfig[key] = config[key]
+      nextConfig[key] = config[key];
     }
   }
 }
 
-export default nextConfig
+export default nextConfig;
+
 
