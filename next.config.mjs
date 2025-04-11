@@ -13,6 +13,7 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // <-- This is the important new line for static export
   eslint: {
     ignoreDuringBuilds: true,
   },
